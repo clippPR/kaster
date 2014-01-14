@@ -1,0 +1,36 @@
+{
+  "author": {
+    "name": "Mark Cicoria",
+    "email": "mark@clipppr.com"
+  },
+  "name": "kaster",
+  "description": "Write data to Kafka with Avro",
+  "version": "0.0.1",
+  "keywords": [
+    "avro",
+    "kafka"
+  ],
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "engines": {
+    "node": ">=0.8"
+  },
+  "dependencies": {
+    "node-avro-io": "*",
+    "kafka-node": "*",
+    "event-stream": "*"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": ""
+    }
+  ],
+  "readme": "",
+  "readmeFilename": "README.md"
+}
