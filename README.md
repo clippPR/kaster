@@ -1,5 +1,7 @@
 **Note:** This is a work in progress
 
+[![Build Status](https://travis-ci.org/clippPR/kaster.png)](https://travis-ci.org/clippPR/kaster)
+
 Produce and consume data from Kafka with Avro serialization.
 
 
