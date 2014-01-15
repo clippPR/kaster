@@ -4,12 +4,13 @@ var
 var consumer = kaster.createConsumer({
     clientHost: "localhost:2181",
     topics: [
-        {topic: "kaster-test", partition: 0, offset: 0}, 
+        {topic: "activity", partition: 0, offset: 0}, 
+        // {topic: "activity", partition: 0, offset: 2187}, 
     ],
     settings: {
         groupId: 'kafka-node-group', //consumer group id, deafult `kafka-node-group`
         // Auto commit config 
-        autoCommit: true,
+        autoCommit: false,
         autoCommitIntervalMs: 5000,
         // The max wait time is the maximum amount of time in milliseconds to block waiting if insufficient data is available at the time the request is issued, default 100ms
         fetchMaxWaitMs: 100,
@@ -25,7 +26,7 @@ var consumer = kaster.createConsumer({
 var messageHandler = kaster.createMessageHandler(function(err, message, header){
     if(err) console.log("mhandler error:", err.stack || err);
 
-    console.log("Message:", message);
+    console.log(header.meta["avro.schema"].name + ":", message);
     /* Do something with your json message */
 });
 
