@@ -67,6 +67,56 @@ describe("Avro", function(){
         });
     });
 
+    it("should auto-generate a schema with nulls", function(done){
+        var json = { 
+          url: 'http://www.mobilesocialhub.com/2013/02/aggregate-knowledge-predicts-the-marketing-future',
+          meow: false,
+          cats: false,
+          otherthing: null,
+          arrays:
+           [ 1,2,3,4,5 ]
+        };
+         
+        var schema = Avro.generateSchema({
+            name: "BooleanTest",
+            type: "record",
+            namespace: "Test.Boolean"
+        }, json);
+
+        Avro.encode(schema, json, function(err, data){
+            // console.log("encoded:", err || data);
+            if(err) throw err;
+            return done();
+
+        });
+    });
+
+     it("should auto-generate a schema with functions", function(done){
+        var json = { 
+          url: 'http://www.mobilesocialhub.com/2013/02/aggregate-knowledge-predicts-the-marketing-future',
+          meow: false,
+          cats: false,
+          otherthing: function(){
+            return "oh no";
+          },
+          arrays:
+           [ 1,2,3,4,5 ]
+        };
+         
+        var schema = Avro.generateSchema({
+            name: "BooleanTest",
+            type: "record",
+            namespace: "Test.Boolean"
+        }, json);
+
+        Avro.encode(schema, json, function(err, data){
+            // console.log("encoded:", err || data);
+            if(err) throw err;
+            return done();
+
+        });
+    });
+
     it("should base64 encode and decode an Avro object", function(done){
 
         var json = {
