@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/clippPR/kaster.png)](https://travis-ci.org/clippPR/kaster)
 
-Produce and consume data from Kafka with Avro serialization.
+Produce and consume data from Kinesis with Avro serialization.
 
 
 ##Consuming
