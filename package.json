@@ -5,7 +5,7 @@
   },
   "name": "kaster",
   "description": "Write data to Kafka with Avro",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "keywords": [
     "avro",
     "kafka"
@@ -20,10 +20,13 @@
   "dependencies": {
     "node-avro-io": "*",
     "kafka-node": "*",
-    "event-stream": "*"
+    "event-stream": "*",
+    "kinesis": "*"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "should": "*",
+    "node-uuid": "*"
   },
   "licenses": [
     {
