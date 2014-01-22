@@ -1,21 +1,88 @@
 describe("Kinesis", function(){
+   
 
-    var kinesisSever = "localhost:4567";
+    if(
+        (!process.env.AWS_ACCESS_KEY && !process.env.AWS_ACCESS_KEY_ID) ||
+        (!process.env.AWS_SECRET_KEY && !process.env.AWS_SECRET_ACCESS_KEY)
+    ) {
+        return;
+    }
 
-    before(function(done){
-        var kinesalite = require('kinesalite'),
-        kinesaliteServer = kinesalite({path: './mydb', createStreamMs: 50})
+    var 
+        kaster = require("../lib"),
+        should = require("should");
 
-        // Listen on port 4567
-        kinesaliteServer.listen(4567, function(err) {
-            if (err) throw err
-            console.log('Kinesalite started on port 4567')
+    it("should list all topics", function(done){
+        kaster.listTopics({
+            region: "us-east-1"
+        }, function(err, data){
+            if(err) throw err;
             return done();
         });
     });
 
+    it("should send and recieve a message from kinesis", function(done){
+        this.timeout(10000);
 
-    it("should send a message to kinesis", function(){
+        var message = {
+            text: "Hello world",
+            id: require("node-uuid").v4()
+        };
+
+
+        var messageHandler = kaster.createMessageHandler(function(err, _message, header, raw){
+            if(err) console.log("mhandler error:", err.stack || err);
+            if(!message) return;
+            if(_message && message.id == _message.id) return done();
+        });
+
+        
+        kaster.send({
+            name: "Message", 
+            namespace: "Kaster.Test",
+            topic: "testing"
+        }, message, function(err, resp){
+            if(err) throw err;
+            
+            var shard = {};
+            shard[resp.ShardId] = {lastSequenceNumber: resp.SequenceNumber};
+            var consumer = kaster.createConsumer({
+                topic: "testing",
+                region: "us-east-1",
+                oldest: true,
+                shardIds: shard
+            });
+
+            consumer.on("data", messageHandler);
+
+            kaster.send({
+                name: "Message", 
+                namespace: "Kaster.Test",
+                topic: "testing"
+            }, message, function(err, resp){
+                if(err) throw err;
+            });
+
+        });
+        
+    });
+
+    it("should respond with an error if a topic does not exist", function(done){
+        this.timeout(10000);
+
+        var message = {
+            text: "Hello world",
+            id: require("node-uuid").v4()
+        };
+
+        kaster.send({
+            name: "Message", 
+            namespace: "Kaster.Test",
+            topic: "testing-2"
+        }, message, function(err, resp){
+            should.exist(err);
+            return done();
+        });
         
     });
 

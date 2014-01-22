@@ -1,44 +1,33 @@
 var 
     kaster = require("../lib");
 
+//Expects process.env.AWS_ACCESS_KEY and AWS_SECRET_KEY to be set
 var consumer = kaster.createConsumer({
-    clientHost: "localhost:2181",
-    topics: [
-        {topic: "activity", partition: 0, offset: 0}, 
-        // {topic: "activity", partition: 0, offset: 2187}, 
-    ],
-    settings: {
-        groupId: 'kafka-node-group', //consumer group id, deafult `kafka-node-group`
-        // Auto commit config 
-        autoCommit: false,
-        autoCommitIntervalMs: 5000,
-        // The max wait time is the maximum amount of time in milliseconds to block waiting if insufficient data is available at the time the request is issued, default 100ms
-        fetchMaxWaitMs: 100,
-        // This is the minimum number of bytes of messages that must be available to give a response, default 1 byte
-        fetchMinBytes: 1,
-        // The maximum bytes to include in the message set for this partition. This helps bound the size of the response.
-        fetchMaxBytes: 1024 * 10, 
-        // If set true, consumer will fetch message from the given offset in the payloads 
-        fromOffset: true
-    } 
+    topic: "testing",
+    region: "us-east-1",
+    oldest: false,
+    // shardIds: shard
 });
 
-var messageHandler = kaster.createMessageHandler(function(err, message, header){
-    if(err) console.log("mhandler error:", err.stack || err);
+var currentShards;
 
+var messageHandler = kaster.createMessageHandler(function(err, _message, header){
+    if(err) console.log("mhandler error:", err.stack || err);
     console.log(header.meta["avro.schema"].name + ":", message);
     /* Do something with your json message */
+
+    /* 
+        Save this to pass to a new consumer as the shardIds 
+        parameter. This is useful for picking up where you left off
+        when the process crashed.
+    */
+    currentShards = consumer.shardIds;
 });
 
-consumer.on("message", messageHandler);
-
+consumer.on("data", messageHandler);
 
 consumer.on('error', function (err) {
     console.log("Error:", err);
-});
-
-consumer.on('offsetOutOfRange', function (err) {
-    console.log("offsetOutOfRange Error:", err);
 });
 
 
