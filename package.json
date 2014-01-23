@@ -23,7 +23,8 @@
     "event-stream": "*"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "should": "*"
   },
   "licenses": [
     {
