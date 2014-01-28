@@ -13,7 +13,7 @@ var currentShards;
 
 var messageHandler = kaster.createMessageHandler(function(err, _message, header){
     if(err) console.log("mhandler error:", err.stack || err);
-    console.log(header.meta["avro.schema"].name + ":", message);
+    console.log(header.meta["avro.schema"].name + ":", _message);
     /* Do something with your json message */
 
     /* 
@@ -27,7 +27,7 @@ var messageHandler = kaster.createMessageHandler(function(err, _message, header)
 consumer.on("data", messageHandler);
 
 consumer.on('error', function (err) {
-    console.log("Error:", err);
+    console.log("Error:", err.stack || err);
 });
 
 
