@@ -18,7 +18,6 @@ describe("Kinesis", function(){
         kaster.listTopics({
             region: "us-east-1"
         }, function(err, data){
-            console.log("topics %j", data);
             if(err) throw err;
             return done();
         });
@@ -35,10 +34,9 @@ describe("Kinesis", function(){
 
         var messageHandler = kaster.createMessageHandler(function(err, _message, header, raw){
             if(err) console.log("mhandler error:", err.stack || err);
-            console.log("Message:", _message);
+            // console.log("Message:", _message);
             if(!message) return;
             if(_message && message.id == _message.id) {
-                // console.log("%s,%s", message.id, _message.id);
                 return done();
             }
             
