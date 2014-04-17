@@ -21,7 +21,7 @@
     "node-avro-io": "*",
     "kafka-node": "*",
     "event-stream": "*",
-    "kinesis": "*"
+    "kinesis": ">=1.0"
   },
   "devDependencies": {
     "mocha": "*",
