@@ -10,6 +10,7 @@ describe("Kinesis", function(){
 
     var 
         kaster = require("../lib"),
+        es = require("event-stream"),
         should = require("should"),
         TOPIC_NAME = "testing";
 
@@ -23,7 +24,7 @@ describe("Kinesis", function(){
     });
 
     it("should send and recieve a message from kinesis", function(done){
-        this.timeout(10000);
+        this.timeout(600000);
 
         var message = {
             text: "Hello world",
@@ -33,9 +34,11 @@ describe("Kinesis", function(){
 
         var messageHandler = kaster.createMessageHandler(function(err, _message, header, raw){
             if(err) console.log("mhandler error:", err.stack || err);
-            console.log("Message:", _message);
+            // console.log("Message:", _message);
             if(!message) return;
-            if(_message && message.id == _message.id) return done();
+            if(_message && message.id == _message.id) {
+                return done();
+            }
             
         });
 
@@ -63,13 +66,14 @@ describe("Kinesis", function(){
                 console.log("consumer error:", err);
             });
 
-            kaster.send({
-                name: "Message", 
-                namespace: "Kaster.Test",
-                topic: TOPIC_NAME
-            }, message, function(err, resp){
-                if(err) throw err;
-            });
+
+            // kaster.send({
+            //     name: "Message", 
+            //     namespace: "Kaster.Test",
+            //     topic: TOPIC_NAME
+            // }, message, function(err, resp){
+            //     if(err) throw err;
+            // });
 
         }); 
     });

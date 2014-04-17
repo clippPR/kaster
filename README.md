@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/clippPR/kaster.png)](https://travis-ci.org/clippPR/kaster)
 
-Produce and consume data from Kinesis with Avro serialization.
+Produce and consume data from [Amazon Kinesis](http://docs.aws.amazon.com/kinesis/latest/APIReference/API_Operations.html) with Avro serialization.
 
 
 ##Consuming

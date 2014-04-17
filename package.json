@@ -1,11 +1,15 @@
 {
   "author": {
     "name": "Mark Cicoria",
-    "email": "mark@clipppr.com"
+    "email": "mark@primeloop.com"
   },
+  "contributors": [
+    "Mark Cicoria <mark@primeloop.com>",
+    "Warner Onstine <warner@primeloop.com>"
+  ],
   "name": "kaster",
-  "description": "Write data to Kafka with Avro",
-  "version": "0.2.0",
+  "description": "Write data to Kinesis with Avro",
+  "version": "0.3.0",
   "keywords": [
     "avro",
     "kafka"
@@ -19,11 +23,14 @@
   },
   "dependencies": {
     "node-avro-io": "*",
-    "kafka-node": "*",
     "event-stream": "*",
-    "kinesis": "0.2.3"
+    "kinesis": ">=1.0"
   },
   "devDependencies": {
+    "gulp": "*",
+    "gulp-mocha": "*",
+    "gulp-jshint": "*",
+    "gulp-exit":"*",
     "mocha": "*",
     "should": "*",
     "node-uuid": "*"
